@@ -99,7 +99,7 @@ function makeYourMove(event)
         if(0 == gameState.gameGrid[rowLocation][clickLocationColumn])
         {
             gameState.gameGrid[rowLocation][clickLocationColumn] = gameState.currentPlayerToken[0];
-
+            tokenVisualEleUpdate(rowLocation,clickLocationColumn);
             gameState.swapCurrentPlayerToken();
             return console.log(gameState.gameGrid);    
         }
@@ -111,6 +111,13 @@ function makeYourMove(event)
     }
 }
 
-function tokenVisualEle{
+//???? weh can I stop running into problems 
 
+
+function tokenVisualEleUpdate(row,column){
+    if (gameState.gameGrid[row][column]=='r')
+    {
+        let currentEle= document.getElementsByClassName(`${row},${column} cell`)
+        currentEle.style.backgroundColor ="black";
+    }
 }
