@@ -59,6 +59,9 @@ function renderGameBoard(){
             let newCellElement = document.createElement("section")
             newCellElement.classList.add(`${[numOfRowsMade,numOfCellsMade]}`)
             newCellElement.classList.add("cell");
+           
+
+            
             
 
             if(currentJSRow[numOfCellsMade] != 0){
@@ -67,7 +70,6 @@ function renderGameBoard(){
             
                 newCellElement.textContent = "";
             }
-
             newRowElement.appendChild(newCellElement);
             
         }
@@ -91,7 +93,7 @@ function makeYourMove(event)
     clickLocationColumn = parseInt(clickLocationColumn);
     console.log ("clickLocCol" + clickLocationColumn)
     //what column the person clicked
-    console.log(gameState.gameGrid[1][clickLocationColumn]);
+    console.log(gameState.gameGrid[0][clickLocationColumn]);
     for(let rowLocation=5; rowLocation >=0 ; rowLocation-- )
     {
     //if the bottom array location == 0 make it == 1 
@@ -117,7 +119,23 @@ function makeYourMove(event)
 function tokenVisualEleUpdate(row,column){
     if (gameState.gameGrid[row][column]=='r')
     {
-        let currentEle= document.getElementsByClassName(`${row},${column} cell`)
-        currentEle.style.backgroundColor ="black";
-    }
+        console.log(gameState.gameGrid[row][column]);
+        let currentEle = document.getElementsByClassName(`${row},${column}`)[0]
+        console.log(currentEle);
+        
+        let imgr=document.createElement("img");
+        imgr.src="charmander.jpg";
+
+        currentEle.appendChild(imgr);
+    }else if (gameState.gameGrid[row][column]=='b')
+    {
+        console.log(gameState.gameGrid[row][column]);
+        let currentEle = document.getElementsByClassName(`${row},${column}`)[0]
+        console.log(currentEle);
+        
+        let imgr=document.createElement("img");
+        imgr.src="squirtle.jpg";
+
+        currentEle.appendChild(imgr);
+}
 }
