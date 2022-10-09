@@ -44,6 +44,8 @@ let gameState= {
 // Step 1) grab the location where we want to render the HTML
 
 let gameBoardContainer = document.getElementById("gridBox")
+let currentPlayer = document.getElementById("currentPlayer")
+
 
 //Step 2 lets write the callback function we want to run when our DomContentLoader event occurs.
 function renderGameBoard(){
@@ -70,7 +72,6 @@ function renderGameBoard(){
             if(currentJSRow[numOfCellsMade] != 0){
                 newCellElement.textContent = currentJSRow[numOfCellsMade];
             }else{
-            
                 newCellElement.textContent = "";
             }
             newCellElement.appendChild(imgr);
@@ -147,9 +148,9 @@ function tokenVisualEleUpdate(row,column){
     {   
         console.log(gameState.gameGrid[row][column]);
 
-        
         let imgr = document.getElementById(`img${row},${column}`)
         imgr.src="charmander.jpg";
+        currentPlayer.children[0].src ="squirtle.jpg"
 
     }else if (gameState.gameGrid[row][column]=='b')
 
@@ -159,6 +160,7 @@ function tokenVisualEleUpdate(row,column){
         
         let imgr = document.getElementById(`img${row},${column}`)
         imgr.src="squirtle.jpg";
+        currentPlayer.children[0].src ="charmander.jpg"
 }
 }
 
@@ -305,9 +307,14 @@ function victory(index){
 let bttnPlayAgain = document.getElementById("playAgain");
 let resetEle = document.getElementById("reset");
 let gameWonBannerEle = document.getElementById("gameWonBanner");
+let playerScore1 = document.getElementById("player1Score");
+let playerScore2 = document.getElementById("player2Score");
+
+
 
 function playAgain(){
     gameState.paused = true;
+    currentPlayer.classList.add("hidden");
     gameWonBannerEle.classList.remove("hidden");
     resetEle.classList.remove("hidden");
     bttnPlayAgain.addEventListener("click", clearBoard);
@@ -318,6 +325,7 @@ function clearBoard(){
     
     resetEle.classList.add("hidden");
     gameWonBannerEle.classList.add("hidden");
+    currentPlayer.classList.remove("hidden");
     gameState.gameGrid =
     [[0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0],
@@ -342,17 +350,23 @@ function displayVictoryScreen(winningPlayer){
     //set a banner on top of the playing screen that states in cool language and with a cool picture of the victory pokemon 
     //banner is translucent but text is not?
 
+
+
+
     if (winningPlayer == 'r'){
         console.log("Charmander won!")
         gameState.stats.gamesWonR= gameState.stats.gamesWonR +1;
+        playerScore1.textContent = gameState.stats.gamesWonR;
 
     }else if(winningPlayer == 'b')
     {
         console.log("Squirtle won!");
         gameState.stats.gamesWonB= gameState.stats.gamesWonB +1;
+        playerScore2.textContent = gameState.stats.gamesWonB;
 
     }else if(winningPlayer == 'g'){
         console.log("Bulbasaur won!");
         gameState.stats.gamesWonG= gameState.stats.gamesWonG +1;
     }
 }
+
