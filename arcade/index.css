@@ -31,8 +31,8 @@ h1{
 }
 
 .cell img{
-    width:6vw;
-    height:6vw;
+    width:3.9vw;
+    height:3.9vw;
     border-radius: 50%;
 
 }
@@ -55,8 +55,8 @@ footer{
     align-items:center;
 }
 #currentPlayer img{
-    width:60px;
-    height:60px;
+    width:3.9vw;
+    height:3.9vw;
     border-radius: 50%;
 
 }
