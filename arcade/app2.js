@@ -1,3 +1,13 @@
+// a quick note to the person reading my code; I am quite sorry that somehow the ability to
+// see which player is playing on round 2 sometimes has issues. I am working on debugging it, but to be honest, I'm glad it functions most the time
+// and that it rights itself once the game goes past the first token drop.
+
+
+
+
+let currentPlayer = document.getElementById("currentPlayer")
+
+
 let gameState= {
     gameGrid:
     [[0,0,0,0,0,0,0],
@@ -21,7 +31,18 @@ let gameState= {
 
     paused: false,
 
-
+    //randomize who is first (extremely minorly biased towards .5 exactly)
+    flipACoin: function(){
+        
+        let randomNumber = Math.random();
+        console.log(randomNumber);
+        //if random = <.5 then charmander
+        if(randomNumber<.5){
+            tokenVisualEleUpdate(true,false);
+            this.currentPlayerToken == "r";
+        }
+        
+    },
 
     swapCurrentPlayerToken: function() {
         if (this.currentPlayerToken[0] == "r"){
@@ -44,7 +65,7 @@ let gameState= {
 // Step 1) grab the location where we want to render the HTML
 
 let gameBoardContainer = document.getElementById("gridBox")
-let currentPlayer = document.getElementById("currentPlayer")
+
 
 
 //Step 2 lets write the callback function we want to run when our DomContentLoader event occurs.
@@ -66,7 +87,7 @@ function renderGameBoard(){
             newCellElement.classList.add("cell");
             let imgr = document.createElement("img");
             imgr.classList.add("click");
-            imgr.src = "pokeball.png";
+            imgr.src = "images/pokeball.png";
             imgr.id = `img${numOfRowsMade},${numOfCellsMade}`;
 
             if(currentJSRow[numOfCellsMade] != 0){
@@ -81,6 +102,7 @@ function renderGameBoard(){
         gameBoardContainer.appendChild(newRowElement);
     }
     gameBoardContainer = document.addEventListener("click",makeYourMove)
+    gameState.flipACoin();
 }
 
 //step 3 I want to use the dom content loaded event and
@@ -140,28 +162,34 @@ function makeYourMove(event)
     }
 }
 
-//???? weh can I stop running into problems 
+// can I stop running into problems 
 
 
 function tokenVisualEleUpdate(row,column){
-    if (gameState.gameGrid[row][column]=='r')
-    {   
-        console.log(gameState.gameGrid[row][column]);
 
-        let imgr = document.getElementById(`img${row},${column}`)
-        imgr.src="charmander.jpg";
-        currentPlayer.children[0].src ="squirtle.jpg"
+    // didn't really wanna do it this way but, the other fix would involve deconstructing my code 
+    if(row == true && column == false){
+        currentPlayer.children[0].src = "images/charmander.jpg"
+        return
+    }else{
+        if (gameState.gameGrid[row][column]=='r')
+        {   
+            console.log(gameState.gameGrid[row][column]);
 
-    }else if (gameState.gameGrid[row][column]=='b')
+            let imgr = document.getElementById(`img${row},${column}`)
+            imgr.src="images/charmander.jpg";
+            currentPlayer.children[0].src ="images/squirtle.jpg"
 
-    {
-        console.log(gameState.gameGrid[row][column]);
+        }else if (gameState.gameGrid[row][column]=='b')
+        {
+            console.log(gameState.gameGrid[row][column]);
 
         
-        let imgr = document.getElementById(`img${row},${column}`)
-        imgr.src="squirtle.jpg";
-        currentPlayer.children[0].src ="charmander.jpg"
-}
+            let imgr = document.getElementById(`img${row},${column}`)
+            imgr.src="images/squirtle.jpg";
+            currentPlayer.children[0].src ="images/charmander.jpg"
+        }
+    }
 }
 
 // I wish we got into using multiple JS pages because this solution checker is long and going to be tedious to implement and I wrote it in a different .js file because I knew that fact
@@ -205,7 +233,7 @@ function winSearchRightLeft(grid){
         let currentLocationValue = 'z';
         
         //iterate each cell within the rows
-        for(let cell = 0; cell<grid[0].length-1; cell++){
+        for(let cell = 0; cell<grid[0].length; cell++){
             //create a value that iterates every time it shares a value with another cell, and replaces itself every time it doesn't
             //console.log(grid[row][cell]);
 
@@ -232,7 +260,7 @@ function winSearchDiagonalUpR(grid){
     //index and iterate top right of grid from 0,3-0,6 to 3,3- 3,6 (because our win conditions for diagonals can only start from this range we can search in a smaller iterated grid)
     for(let row = 0; row< 3; row ++){
         //column iteration for smaller grid
-        for(let cell =3; cell<= 5; cell++){
+        for(let cell =3; cell<= 6; cell++){
             //for loop cycling with i for 3 iterations max to determine if there's 4 in a row
             for(let inARow=1; inARow>0; inARow++){
                 //if there's a matching non-zero value at +1, -1 inARow = 2, if there's another non matching value at +2-2, inARow = 3 "" until inARow ==4 else, break
@@ -303,7 +331,7 @@ function victory(index){
     }
 }
 
-
+//pulling a bunch of elements above the code that refrences them for various Ui improvements, game won banner, score tracker, play again, board reset, 
 let bttnPlayAgain = document.getElementById("playAgain");
 let resetEle = document.getElementById("reset");
 let gameWonBannerEle = document.getElementById("gameWonBanner");
@@ -322,7 +350,7 @@ function playAgain(){
 
 //clear board of visual represetation of win
 function clearBoard(){
-    
+    gameState.flipACoin();
     resetEle.classList.add("hidden");
     gameWonBannerEle.classList.add("hidden");
     currentPlayer.classList.remove("hidden");
@@ -337,7 +365,7 @@ function clearBoard(){
     let imgr = document.getElementsByClassName("cell");
     console.log(imgr);
     for(i=0; i<imgr.length; i++){
-        imgr[i].children[0].src="pokeball.png";
+        imgr[i].children[0].src="images/pokeball.png";
     }
     //reset game state
     gameState.paused= false;
@@ -348,23 +376,40 @@ function clearBoard(){
 //display victory screen yay
 function displayVictoryScreen(winningPlayer){
     //set a banner on top of the playing screen that states in cool language and with a cool picture of the victory pokemon 
-    //banner is translucent but text is not?
+    //banner is translucent and has to stay out of the way of the reset button for all other elements will be turned off
 
 
 
 
     if (winningPlayer == 'r'){
-        console.log("Charmander won!")
+
+        //display banner for player who won, image of character (work in progress I want it to clip on purpose, I may have to just edit the photo to be a section of charmander
+        gameWonBannerEle.textContent = "Charmander won!";
+        let imgr = document.createElement("img");
+        imgr.src="images/charmanderOutlineClipped.png";
+        gameWonBannerEle.appendChild(imgr);
+        gameWonBannerEle.style.backgroundColor= "rgb(130, 12, 29)";
+
+        //change games won state to increase for the player who won
         gameState.stats.gamesWonR= gameState.stats.gamesWonR +1;
         playerScore1.textContent = gameState.stats.gamesWonR;
 
     }else if(winningPlayer == 'b')
     {
+
         console.log("Squirtle won!");
+        gameWonBannerEle.textContent = "Squirtle won!";
+        let imgr = document.createElement("img");
+        imgr.src="images/squirtleOutlineClipped.png";
+        gameWonBannerEle.style.backgroundColor= "rgb(137, 172, 241)";
+
+        gameWonBannerEle.appendChild(imgr);
+
         gameState.stats.gamesWonB= gameState.stats.gamesWonB +1;
         playerScore2.textContent = gameState.stats.gamesWonB;
 
     }else if(winningPlayer == 'g'){
+        gameWonBannerEle.textContent = "Bulbasaur won!";
         console.log("Bulbasaur won!");
         gameState.stats.gamesWonG= gameState.stats.gamesWonG +1;
     }
