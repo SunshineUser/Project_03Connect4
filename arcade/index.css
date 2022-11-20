@@ -134,3 +134,26 @@ footer{
     
 }
 
+#squirtleInput.hidden{
+    display:none;
+}
+
+#squirtleName.hidden{
+    display:none;
+}
+
+#charmanderInput.hidden{
+    display:none;
+}
+
+#charmanderName.hidden{
+    display:none;
+}
+
+#changeCharmanderButton.hidden{
+    display:none;
+}
+
+#changeSquirtleButton.hidden{
+    display:none;
+}

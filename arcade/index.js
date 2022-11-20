@@ -319,10 +319,8 @@ function winSearchDiagonalUpL(grid){
     }
 }
 
-function checkVictoryAll(grid)
-{
-    return (winSearchDiagonalUpR(grid) == true || winSearchRightLeft(grid) == true || winSearchDiagonalUpL(grid) == true ||winSearchUpDown(grid) == true)
-}
+const checkVictoryAll = (grid) => winSearchDiagonalUpR(grid) == true || winSearchRightLeft(grid) == true || winSearchDiagonalUpL(grid) == true ||winSearchUpDown(grid) == true
+
 
 function victory(index){
     if(index >= 4){
@@ -414,4 +412,50 @@ function displayVictoryScreen(winningPlayer){
         gameState.stats.gamesWonG= gameState.stats.gamesWonG +1;
     }
 }
+
+
+///eww I set the name with a button function.
+let squirtleButton= document.getElementById("changeSquirtleButton");
+let charmanderButton = document.getElementById("changeCharmanderButton");
+let squirtleInput = document.getElementById("squirtleInput");
+let charmanderInput = document.getElementById("charmanderInput");
+let squirtleName= document.getElementById("squirtleName");
+let charmanderName = document.getElementById("charmanderName");
+
+
+
+const changeNameCharmander= () =>{
+    charmanderInput.classList.remove("hidden");
+    charmanderName.classList.add("hidden");
+    charmanderButton.classList.add("hidden");
+}
+
+const changeNameSquirtle = () =>{
+    squirtleInput.classList.remove("hidden");
+    squirtleName.classList.add("hidden");
+    squirtleButton.classList.add("hidden");
+}
+
+const charmanderNameEnter= (event) =>{
+    if(event.key ==='Enter'){
+        charmanderInput.classList.add("hidden");
+        charmanderName.classList.remove("hidden");
+        charmanderButton.classList.remove("hidden");
+        charmanderName.textContent = event.target.value;
+    }
+}
+
+const squirtleNameEnter= (event) =>{
+    if(event.key ==='Enter'){
+        squirtleInput.classList.add("hidden");
+        squirtleName.classList.remove("hidden");
+        squirtleButton.classList.remove("hidden");
+        squirtleName.textContent = event.target.value;
+    }
+}
+
+squirtleButton.addEventListener("click",changeNameSquirtle);
+charmanderButton.addEventListener("click",changeNameCharmander);
+squirtleInput.addEventListener("keyup",squirtleNameEnter);
+charmanderInput.addEventListener("keyup",charmanderNameEnter);
 
