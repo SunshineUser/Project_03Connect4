@@ -2,9 +2,6 @@
 // see which player is playing on round 2 sometimes has issues. I am working on debugging it, but to be honest, I'm glad it functions most the time
 // and that it rights itself once the game goes past the first token drop.
 
-
-
-
 let currentPlayer = document.getElementById("currentPlayer")
 
 
@@ -65,8 +62,6 @@ let gameState= {
 // Step 1) grab the location where we want to render the HTML
 
 let gameBoardContainer = document.getElementById("gridBox")
-
-
 
 //Step 2 lets write the callback function we want to run when our DomContentLoader event occurs.
 function renderGameBoard(){
@@ -422,8 +417,6 @@ let charmanderInput = document.getElementById("charmanderInput");
 let squirtleName= document.getElementById("squirtleName");
 let charmanderName = document.getElementById("charmanderName");
 
-
-
 const changeNameCharmander= () =>{
     charmanderInput.classList.remove("hidden");
     charmanderName.classList.add("hidden");
@@ -458,4 +451,3 @@ squirtleButton.addEventListener("click",changeNameSquirtle);
 charmanderButton.addEventListener("click",changeNameCharmander);
 squirtleInput.addEventListener("keyup",squirtleNameEnter);
 charmanderInput.addEventListener("keyup",charmanderNameEnter);
-
